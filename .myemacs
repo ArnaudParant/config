@@ -1,0 +1,73 @@
+;; General color
+(set-face-background 'default	"#3A3A3A")
+(set-face-background 'region	"#2A6A2A")
+(set-foreground-color		"Wheat")
+(set-cursor-color		"#33CC33")
+
+;; Highlight column 80
+(require 'whitespace)
+ (setq whitespace-style '(face empty tabs lines-tail trailing))
+ (global-whitespace-mode t)
+
+;; Inhibit startup screen
+(setq inhibit-startup-message t)
+
+;; Show line-number in the mode line
+(line-number-mode 1)
+
+;; Show column-number in the mode line
+(column-number-mode 1)
+
+;; Highlight brackets
+(show-paren-mode 1)
+
+;; Stop blink
+(blink-cursor-mode nil)
+
+;; Web mode
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.[gj]sp\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.js[x]\\'" . web-mode))
+
+;; Configure Tuareg
+(add-to-list 'load-path "~/.elisp/tuareg-mode")
+    (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
+    (autoload 'camldebug "camldebug" "Run the Caml debugger" t)
+    (autoload 'tuareg-imenu-set-imenu "tuareg-imenu"
+      "Configuration of imenu for tuareg" t)
+
+(add-hook 'tuareg-mode-hook 'tuareg-imenu-set-imenu)
+
+(setq auto-mode-alist
+        (append '(("\\.ml[ily]?$" . tuareg-mode)
+	          ("\\.topml$" . tuareg-mode)
+	          ("\\.eliom[i]?$" . tuareg-mode))
+                  auto-mode-alist))
+
+;; Transform tab to spaces
+(setq tuareg-in-indent 0)
+(setq-default indent-tabs-mode nil)
+
+;; Remove ending line space
+(add-hook 'tuareg-mode-hook
+	  '(lambda ()
+	     (add-hook 'before-save-hook 'delete-trailing-whitespace)))
+
+;; ocp-indent
+(load-file "/home/nox/.opam/4.00.1/share/typerex/ocp-indent/ocp-indent.el")
+(put 'scroll-left 'disabled nil)
+
+
+;; scala
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+
+(add-to-list 'auto-mode-alist '("\.scala" . scala-mode) '("\.sbt\'" . scala-mode) )
